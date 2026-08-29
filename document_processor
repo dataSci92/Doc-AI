@@ -1,0 +1,37 @@
+import io
+
+import PyPDF2
+
+
+def extract_text_from_pdf(uploaded_file):
+    """
+    Extract readable text from an uploaded PDF.
+    """
+
+    pdf_bytes = uploaded_file.read()
+
+    pdf_stream = io.BytesIO(
+        pdf_bytes
+    )
+
+    reader = PyPDF2.PdfReader(
+        pdf_stream
+    )
+
+
+    pages = []
+
+    for page in reader.pages:
+
+        text = page.extract_text()
+
+        if text:
+
+            pages.append(
+                text.strip()
+            )
+
+
+    return "\n\n--- PAGE ---\n\n".join(
+        pages
+    )
